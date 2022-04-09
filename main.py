@@ -9,7 +9,7 @@ bot = telebot.TeleBot(os.getenv('KEY'))
 wikipedia.set_lang(os.getenv('LANGUE'))
 
 def randtitle():
-    randrequest=requests.post('https://ru.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&grnlimit=1')
+    randrequest=requests.post(f'https://{os.getenv("LANGUE")}.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&grnlimit=1')
     jsonansw = randrequest.text
     parsed = json.loads(jsonansw)
     for test in parsed['query']['pages']:
