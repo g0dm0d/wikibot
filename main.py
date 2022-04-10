@@ -2,7 +2,7 @@ import wikipedia, telebot
 import requests, json
 import time, threading, schedule
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 
 load_dotenv()
 bot = telebot.TeleBot(os.getenv('KEY'))
