@@ -57,6 +57,10 @@ def unset_timer(message):
     schedule.clear(message.chat.id)
 
 
+@bot.message_handler(commands=['random'])
+def randomwiki(message):
+    bot.reoply_to(message, wikipedia.summary(randtitle()))
+
 if __name__ == '__main__':
     bot.infinity_polling()
     threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
