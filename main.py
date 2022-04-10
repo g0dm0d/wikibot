@@ -29,9 +29,7 @@ def search(message):
             sent_msg = bot.reply_to(message, messages)
             bot.register_next_step_handler(sent_msg, question, args)
         else:
-            bot.reply_to(message, "Nothing found")
-            
-            
+            bot.reply_to(message, "Nothing found")      
     else:
         bot.reply_to(message, 'Usage: /set <question>')
 def question(message, args):
