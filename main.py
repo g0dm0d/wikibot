@@ -3,8 +3,8 @@ import requests, json
 import time, threading, schedule
 import os
 from dotenv import load_dotenv, dotenv_values
-load_dotenv()
 
+load_dotenv()
 bot = telebot.TeleBot(os.getenv('KEY'))
 wikipedia.set_lang(os.getenv('LANGUE'))
 
@@ -25,8 +25,13 @@ def search(message):
         for row in wikipedia.search(args):
             messages+=f"{i} - {row}\n"
             i+=1
-        sent_msg = bot.reply_to(message, messages)
-        bot.register_next_step_handler(sent_msg, question, args)
+        if messages:
+            sent_msg = bot.reply_to(message, messages)
+            bot.register_next_step_handler(sent_msg, question, args)
+        else:
+            bot.reply_to(message, "Nothing found")
+            
+            
     else:
         bot.reply_to(message, 'Usage: /set <question>')
 def question(message, args):
@@ -55,9 +60,8 @@ def unset_timer(message):
 
 
 if __name__ == '__main__':
+    bot.infinity_polling()
     threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
     while True:
         schedule.run_pending()
         time.sleep(1)
-
-bot.infinity_polling()
