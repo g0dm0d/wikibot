@@ -31,7 +31,7 @@ def search(message):
         else:
             bot.reply_to(message, "Nothing found")      
     else:
-        bot.reply_to(message, 'Usage: /set <question>')
+        bot.reply_to(message, 'Usage: /search <question>')
 def question(message, args):
     id = int(message.text)
     bot.send_message(message.chat.id, wikipedia.summary(wikipedia.search(args)[id]))
