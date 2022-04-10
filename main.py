@@ -59,7 +59,7 @@ def unset_timer(message):
 
 @bot.message_handler(commands=['random'])
 def randomwiki(message):
-    bot.reoply_to(message, wikipedia.summary(randtitle()))
+    bot.reply_to(message, wikipedia.summary(randtitle()))
 
 if __name__ == '__main__':
     bot.infinity_polling()
