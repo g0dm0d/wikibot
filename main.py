@@ -62,8 +62,8 @@ def randomwiki(message):
     bot.reply_to(message, wikipedia.summary(randtitle()))
 
 if __name__ == '__main__':
-    bot.infinity_polling()
     threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
     while True:
         schedule.run_pending()
         time.sleep(1)
+bot.infinity_polling()
