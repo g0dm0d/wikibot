@@ -42,7 +42,11 @@ def send_welcome(message):
 
 
 def beep(chat_id) -> None:
-    bot.send_message(chat_id, wikipedia.summary(randtitle()))
+    try:
+        bot.send_message(chat_id, wikipedia.summary(randtitle()))
+    except Exception:
+        print("beep crashing :clown:")
+
 @bot.message_handler(commands=['set'])
 def set_timer(message):
     beep(message.chat.id)
@@ -66,4 +70,3 @@ if __name__ == '__main__':
     while True:
         schedule.run_pending()
         time.sleep(1)
-bot.infinity_polling()
