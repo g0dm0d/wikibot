@@ -2,6 +2,7 @@ import wikipedia, telebot
 import requests, json
 import time, threading, schedule
 import os
+import csv
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -53,7 +54,11 @@ def set_timer(message):
     args = message.text.split()
     if len(args) > 1 and args[1].isdigit():
         sec = int(args[1])
+        data = [message.chat.id,sec]
         schedule.every(sec).seconds.do(beep, message.chat.id).tag(message.chat.id)
+        with open("data.csv", 'w', newline='') as file:
+            write = csv.writer(file)
+            write.writerow(data)
     else:
         bot.reply_to(message, 'Usage: /set <seconds>')
 @bot.message_handler(commands=['unset'])
@@ -67,6 +72,11 @@ def randomwiki(message):
 
 if __name__ == '__main__':
     threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
+    with open("data.csv", newline='') as file:
+        rows = csv.reader(file,delimiter=',')
+        for row in rows:
+            schedule.every(int(row[1])).seconds.do(beep, int(row[0])).tag(int(row[1]))
     while True:
         schedule.run_pending()
         time.sleep(1)
+bot.infinity_polling()
