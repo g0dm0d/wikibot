@@ -63,6 +63,11 @@ def set_timer(message):
         bot.reply_to(message, 'Usage: /set <seconds>')
 @bot.message_handler(commands=['unset'])
 def unset_timer(message):
+    with open('data.csv', 'rb') as file, open('data.csv', 'wb') as out:
+        write = csv.writer(out)
+        for row in csv.reader(file):
+            if row[0] != message.chat.id:
+                writer.writerow(row)
     schedule.clear(message.chat.id)
 
 
@@ -75,6 +80,7 @@ if __name__ == '__main__':
     with open("data.csv", newline='') as file:
         rows = csv.reader(file,delimiter=',')
         for row in rows:
+            bot.send_message(row[0], wikipedia.summary(randtitle()))
             schedule.every(int(row[1])).seconds.do(beep, int(row[0])).tag(int(row[1]))
     while True:
         schedule.run_pending()
